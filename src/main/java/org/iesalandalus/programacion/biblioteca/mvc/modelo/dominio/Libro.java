@@ -2,44 +2,40 @@ package org.iesalandalus.programacion.biblioteca.mvc.modelo.dominio;
 
 import java.util.Objects;
 
-public class Libro {
-
-	private static final int PAGINAS_PARA_RECOMPENSA = 25;
-	private static final float PUNTOS_PREMIO = 0.5f;
+public abstract class Libro {
 
 	private String titulo;
 	private String autor;
-	private int numPaginas;
 
-	public Libro(String titulo, String autor, int numPaginas) {
+	protected Libro(String titulo, String autor) {
 		setTitulo(titulo);
 		setAutor(autor);
-		setNumPaginas(numPaginas);
 	}
 
-	public Libro(Libro libro) {
+	protected Libro(Libro libro) {
 		if (libro == null) {
 			throw new NullPointerException("ERROR: No es posible copiar un libro nulo.");
 		}
-		setTitulo(libro.getTitulo());
-		setAutor(libro.getAutor());
-		setNumPaginas(libro.getNumPaginas());
+		titulo = libro.getTitulo();
+		autor = libro.getAutor();
 	}
 
 	public static Libro getLibroFicticio(String titulo, String autor) {
 		int numPaginas = 25;
-		return new Libro(titulo, autor, numPaginas);
+		return new LibroEscrito(titulo, autor, numPaginas);
 	}
+
+	public abstract float getPuntos();
 
 	public String getTitulo() {
 		return titulo;
 	}
 
-	private void setTitulo(String titulo) {
+	protected void setTitulo(String titulo) {
 		if (titulo == null) {
 			throw new NullPointerException("ERROR: El título no puede ser nulo.");
 		}
-		if (titulo.trim().equals("")) {
+		if (titulo.trim().isEmpty()) {
 			throw new IllegalArgumentException("ERROR: El título no puede estar vacío.");
 		}
 		this.titulo = titulo;
@@ -49,29 +45,14 @@ public class Libro {
 		return autor;
 	}
 
-	private void setAutor(String autor) {
+	protected void setAutor(String autor) {
 		if (autor == null) {
 			throw new NullPointerException("ERROR: El autor no puede ser nulo.");
 		}
-		if (autor.trim().equals("")) {
+		if (autor.trim().isEmpty()) {
 			throw new IllegalArgumentException("ERROR: El autor no puede estar vacío.");
 		}
 		this.autor = autor;
-	}
-
-	public int getNumPaginas() {
-		return numPaginas;
-	}
-
-	private void setNumPaginas(int numPaginas) {
-		if (numPaginas <= 0) {
-			throw new IllegalArgumentException("ERROR: El número de páginas debe ser mayor que cero.");
-		}
-		this.numPaginas = numPaginas;
-	}
-
-	public float getPuntos() {
-		return ((numPaginas / PAGINAS_PARA_RECOMPENSA) + 1) * PUNTOS_PREMIO;
 	}
 
 	@Override
@@ -93,7 +74,7 @@ public class Libro {
 
 	@Override
 	public String toString() {
-		return String.format("título=%s, autor=%s, número de páginas=%s", titulo, autor, numPaginas);
+		return String.format("título=%s, autor=%s", titulo, autor);
 	}
 
 }

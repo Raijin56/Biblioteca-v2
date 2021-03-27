@@ -1,11 +1,13 @@
-package org.iesalandalus.programacion.biblioteca.mvc.vista;
+package org.iesalandalus.programacion.biblioteca.mvc.vista.texto;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 
 import org.iesalandalus.programacion.biblioteca.mvc.modelo.dominio.Alumno;
+import org.iesalandalus.programacion.biblioteca.mvc.modelo.dominio.AudioLibro;
 import org.iesalandalus.programacion.biblioteca.mvc.modelo.dominio.Curso;
 import org.iesalandalus.programacion.biblioteca.mvc.modelo.dominio.Libro;
+import org.iesalandalus.programacion.biblioteca.mvc.modelo.dominio.LibroEscrito;
 import org.iesalandalus.programacion.biblioteca.mvc.modelo.dominio.Prestamo;
 import org.iesalandalus.programacion.utilidades.Entrada;
 
@@ -43,7 +45,7 @@ public class Consola {
 		String correo = Entrada.cadena();
 		int cursoLeido = 0;
 		while (cursoLeido < 1 || cursoLeido > 4) {
-			System.out.print("Introduce el curso del alumno (1 - Primero, 2 - Segundo, 3 - Tercero, 4 - Cuarto): ");
+			System.out.print("Introduce el curso del alumno (1 - PRIMERO, 2 - SEGUNDO, 3 - TERCERO, 4 - CUARTO): ");
 			cursoLeido = Entrada.entero();
 			if (cursoLeido < 1 || cursoLeido > 4) {
 				System.out.println("ERROR: El curso introducido no es correcto.");
@@ -63,9 +65,26 @@ public class Consola {
 		String titulo = Entrada.cadena();
 		System.out.print("Introduce el autor del libro: ");
 		String autor = Entrada.cadena();
-		System.out.print("Introduce el número de páginas del libro: ");
-		int numPaginas = Entrada.entero();
-		return new Libro(titulo, autor, numPaginas);
+		int tipoLibroLeido = 0;
+		while (tipoLibroLeido < 1 || tipoLibroLeido > 2) {
+			System.out.print("Introduce el tipo de libro (1 - Libro escrito, 2 - Audiolibro): ");
+			tipoLibroLeido = Entrada.entero();
+			if (tipoLibroLeido < 1 || tipoLibroLeido > 2) {
+				System.out.println("ERROR: El tipo de libro introducido no es correcto.");
+			}
+		}
+		Libro libro = null;
+		if (tipoLibroLeido == 1) {
+			System.out.print("Introduce el número de páginas del libro: ");
+			int numPaginas = Entrada.entero();
+			libro = new LibroEscrito(titulo, autor, numPaginas);
+		} else if (tipoLibroLeido == 2) {
+			System.out.print("Introduce la duración del audiolibro: ");
+			int duracion = Entrada.entero();
+			libro = new AudioLibro(titulo, autor, duracion);
+		}
+		return libro;
+
 	}
 
 	public static Libro leerLibroFicticio() {

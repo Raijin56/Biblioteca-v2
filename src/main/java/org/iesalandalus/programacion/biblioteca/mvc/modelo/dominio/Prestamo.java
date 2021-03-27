@@ -25,11 +25,11 @@ public class Prestamo {
 		if (prestamo == null) {
 			throw new NullPointerException("ERROR: No es posible copiar un préstamo nulo.");
 		}
-		setAlumno(prestamo.getAlumno());
-		setLibro(prestamo.getLibro());
-		setFechaPrestamo(prestamo.getFechaPrestamo());
+		alumno = prestamo.getAlumno();
+		libro = prestamo.getLibro();
+		fechaPrestamo = prestamo.getFechaPrestamo();
 		if (prestamo.getFechaDevolucion() != null) {
-			setFechaDevolucion(prestamo.getFechaDevolucion());
+			fechaDevolucion = prestamo.getFechaDevolucion();
 		}
 	}
 
@@ -69,14 +69,24 @@ public class Prestamo {
 	}
 
 	public Libro getLibro() {
-		return new Libro(libro);
+		Libro libro = null;
+		if (this.libro instanceof LibroEscrito) {
+			libro = new LibroEscrito((LibroEscrito) this.libro);
+		} else if (this.libro instanceof AudioLibro) {
+			libro = new AudioLibro((AudioLibro) this.libro);
+		}
+		return libro;
 	}
 
 	private void setLibro(Libro libro) {
 		if (libro == null) {
 			throw new NullPointerException("ERROR: El libro no puede ser nulo.");
 		}
-		this.libro = new Libro(libro);
+		if (libro instanceof LibroEscrito) {
+			this.libro = new LibroEscrito((LibroEscrito) libro);
+		} else if (libro instanceof AudioLibro) {
+			this.libro = new AudioLibro((AudioLibro) libro);
+		}
 	}
 
 	public LocalDate getFechaPrestamo() {

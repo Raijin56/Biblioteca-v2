@@ -1,4 +1,4 @@
-package org.iesalandalus.programacion.biblioteca.mvc.modelo.negocio;
+package org.iesalandalus.programacion.biblioteca.mvc.modelo.negocio.memoria;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -13,8 +13,9 @@ import org.iesalandalus.programacion.biblioteca.mvc.modelo.dominio.Alumno;
 import org.iesalandalus.programacion.biblioteca.mvc.modelo.dominio.Curso;
 import org.iesalandalus.programacion.biblioteca.mvc.modelo.dominio.Libro;
 import org.iesalandalus.programacion.biblioteca.mvc.modelo.dominio.Prestamo;
+import org.iesalandalus.programacion.biblioteca.mvc.modelo.negocio.IPrestamos;
 
-public class Prestamos {
+public class Prestamos implements IPrestamos {
 
 	private List<Prestamo> coleccionPrestamos;
 
@@ -22,6 +23,7 @@ public class Prestamos {
 		coleccionPrestamos = new ArrayList<>();
 	}
 
+	@Override
 	public List<Prestamo> get() {
 		Comparator<Alumno> comparadorAlumno = Comparator.comparing(Alumno::getNombre);
 		Comparator<Libro> comparadorLibro = Comparator.comparing(Libro::getTitulo).thenComparing(Libro::getAutor);
@@ -41,10 +43,12 @@ public class Prestamos {
 		return copiaPrestamos;
 	}
 
+	@Override
 	public int getTamano() {
 		return coleccionPrestamos.size();
 	}
 
+	@Override
 	public List<Prestamo> get(Alumno alumno) {
 		if (alumno == null) {
 			throw new NullPointerException("ERROR: El alumno no puede ser nulo.");
@@ -62,6 +66,7 @@ public class Prestamos {
 		return prestamosAlumno;
 	}
 
+	@Override
 	public List<Prestamo> get(Libro libro) {
 		if (libro == null) {
 			throw new NullPointerException("ERROR: El libro no puede ser nulo.");
@@ -79,6 +84,7 @@ public class Prestamos {
 		return prestamosLibro;
 	}
 
+	@Override
 	public List<Prestamo> get(LocalDate fecha) {
 		if (fecha == null) {
 			throw new NullPointerException("ERROR: La fecha no puede ser nula.");
@@ -98,6 +104,7 @@ public class Prestamos {
 		return prestamosMensuales;
 	}
 
+	@Override
 	public Map<Curso, Integer> getEstadisticaMensualPorCurso(LocalDate fecha) {
 		Map<Curso, Integer> estadisticasMensualesPorCurso = inicializarEstadisticas();
 		List<Prestamo> prestamosMensuales = get(fecha);
@@ -121,6 +128,7 @@ public class Prestamos {
 		return fecha1.getMonthValue() == fecha2.getMonthValue() && fecha1.getYear() == fecha2.getYear();
 	}
 
+	@Override
 	public void prestar(Prestamo prestamo) throws OperationNotSupportedException {
 		if (prestamo == null) {
 			throw new NullPointerException("ERROR: No se puede prestar un préstamo nulo.");
@@ -132,6 +140,7 @@ public class Prestamos {
 		}
 	}
 
+	@Override
 	public void devolver(Prestamo prestamo, LocalDate fechaDevolucion) throws OperationNotSupportedException {
 		if (prestamo == null) {
 			throw new NullPointerException("ERROR: No se puede devolver un préstamo nulo.");
@@ -144,6 +153,7 @@ public class Prestamos {
 		}
 	}
 
+	@Override
 	public Prestamo buscar(Prestamo prestamo) {
 		if (prestamo == null) {
 			throw new IllegalArgumentException("ERROR: No se puede buscar un préstamo nulo.");
@@ -156,6 +166,7 @@ public class Prestamos {
 		}
 	}
 
+	@Override
 	public void borrar(Prestamo prestamo) throws OperationNotSupportedException {
 		if (prestamo == null) {
 			throw new IllegalArgumentException("ERROR: No se puede borrar un préstamo nulo.");

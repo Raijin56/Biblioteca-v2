@@ -21,9 +21,9 @@ public class Alumno {
 		if (alumno == null) {
 			throw new NullPointerException("ERROR: No es posible copiar un alumno nulo.");
 		}
-		setNombre(alumno.getNombre());
-		setCorreo(alumno.getCorreo());
-		setCurso(alumno.getCurso());
+		nombre = alumno.getNombre();
+		correo = alumno.getCorreo();
+		curso = alumno.getCurso();
 	}
 
 	public static Alumno getAlumnoFicticio(String correo) {

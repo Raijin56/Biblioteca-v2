@@ -1,4 +1,4 @@
-package org.iesalandalus.programacion.biblioteca.mvc.vista;
+package org.iesalandalus.programacion.biblioteca.mvc.vista.texto;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -6,27 +6,30 @@ import java.util.Map;
 
 import javax.naming.OperationNotSupportedException;
 
-import org.iesalandalus.programacion.biblioteca.mvc.controlador.Controlador;
+import org.iesalandalus.programacion.biblioteca.mvc.controlador.IControlador;
 import org.iesalandalus.programacion.biblioteca.mvc.modelo.dominio.Alumno;
 import org.iesalandalus.programacion.biblioteca.mvc.modelo.dominio.Curso;
 import org.iesalandalus.programacion.biblioteca.mvc.modelo.dominio.Libro;
 import org.iesalandalus.programacion.biblioteca.mvc.modelo.dominio.Prestamo;
+import org.iesalandalus.programacion.biblioteca.mvc.vista.IVista;
 
-public class Vista {
+public class VistaTexto implements IVista {
 
-	private Controlador controlador;
+	private IControlador controlador;
 
-	public Vista() {
+	public VistaTexto() {
 		Opcion.setVista(this);
 	}
 
-	public void setControlador(Controlador controlador) {
+	@Override
+	public void setControlador(IControlador controlador) {
 		if (controlador == null) {
 			throw new NullPointerException("ERROR: El controlador no puede ser nulo.");
 		}
 		this.controlador = controlador;
 	}
 
+	@Override
 	public void comenzar() {
 		// Consola.mostrarCabecera("Gestión de los préstamos de la Biblioteca del IES
 		// Al-Ándalus");
@@ -39,6 +42,7 @@ public class Vista {
 		} while (ordinalOpcion != Opcion.SALIR.ordinal());
 	}
 
+	@Override
 	public void terminar() {
 		controlador.terminar();
 	}
